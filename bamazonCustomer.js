@@ -31,6 +31,7 @@ function displayTable (res) {
 }
 
 
+
 connection.connect(function(err) {
   if (err) throw err;
   // console.log("connected as id " + connection.threadId);
@@ -54,10 +55,31 @@ function purchaseStart() {
           {
             name: 'quantity',
             type: 'input',
-            message: 'How many would you like to purchase?'
+            message: 'Purchase amount?'
           }])
 
-    // connection.end();
+          .then(function(answer) {            
+            var id = answer.item;            
+            var chosenItem = res[id-1];
+            var newQuantity = chosenItem.stock_quantity - answer.quantity;
+            var price = chosenItem.price;
+            var totalPrice = price * answer.quantity;
+            if (newQuantity >= 0) {
+              connection.query('UPDATE inventory SET ? WHERE id = ?', [{ stock_quantity: newQuantity }, id]);
+              console.log('--------------------------------------------');
+              console.log("Your tolal purchase of " + chosenItem.product_name + " is $" + totalPrice )
+              console.log('Thank you for shopping Bamazon!!!')
+              console.log('--------------------------------------------');
+
+              connection.end();
+
+            } else {
+              console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+              console.log('Sorry, inventory is low.');
+              console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+              connection.end();
+            }
+          })
   });
 }
 

@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require('inquirer');
+var Table = require('cli-table');
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -22,12 +23,21 @@ connection.connect(function(err) {
 function afterConnection() {
   connection.query("SELECT * FROM bamazon_db.inventory", function(err, res) {
       if (err) throw err;
-      console.log('inventory');
+
+
+      var table = new Table({
+        head: ['Id', 'Product Name', 'Department', 'Price', 'In Stock']
+      , colWidths: [10, 60, 30, 10, 10]
+    });
+
       for (var i = 0; i < res.length; i++) {
-        console.log(res[i].id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
-      }
-      console.log("-----------------------------------");
-      // console.log(res);
+
+        table.push(
+          [res[i].id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]        
+      );
+    }       
+      console.log(table.toString());
+
     connection.end();
   });
 }

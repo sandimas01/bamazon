@@ -34,15 +34,30 @@ function displayTable (res) {
 connection.connect(function(err) {
   if (err) throw err;
   // console.log("connected as id " + connection.threadId);
-  afterConnection();
+  purchaseStart();
 });
 
-function afterConnection() {
+function purchaseStart() {
   connection.query("SELECT * FROM bamazon_db.inventory", function(err, res) {
       if (err) throw err;
       displayTable (res);
 
-    connection.end();
+          var choiceArray = [];
+          for (var i = 0; i < res.length; i++) {
+            choiceArray.push(res[i].product_name);
+          }
+          inquirer.prompt([{
+            name: 'item',
+            type: 'input',
+            message: 'Which item would you like to purchase? (Enter the Item ID)'
+          },
+          {
+            name: 'quantity',
+            type: 'input',
+            message: 'How many would you like to purchase?'
+          }])
+
+    // connection.end();
   });
 }
 

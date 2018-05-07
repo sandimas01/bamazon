@@ -14,6 +14,23 @@ var connection = mysql.createConnection({
   database: "bamazon_DB"
 });
 
+
+function displayTable (res) {
+  var table = new Table({
+    head: ['Id', 'Product Name', 'Department', 'Price', 'In Stock']
+    , colWidths: [10, 60, 30, 10, 10]
+  });
+  
+  for (var i = 0; i < res.length; i++) {
+
+    table.push(
+      [res[i].id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]        
+  );
+}       
+  console.log(table.toString());
+}
+
+
 connection.connect(function(err) {
   if (err) throw err;
   // console.log("connected as id " + connection.threadId);
@@ -23,21 +40,9 @@ connection.connect(function(err) {
 function afterConnection() {
   connection.query("SELECT * FROM bamazon_db.inventory", function(err, res) {
       if (err) throw err;
-
-
-      var table = new Table({
-        head: ['Id', 'Product Name', 'Department', 'Price', 'In Stock']
-      , colWidths: [10, 60, 30, 10, 10]
-    });
-
-      for (var i = 0; i < res.length; i++) {
-
-        table.push(
-          [res[i].id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]        
-      );
-    }       
-      console.log(table.toString());
+      displayTable (res);
 
     connection.end();
   });
 }
+

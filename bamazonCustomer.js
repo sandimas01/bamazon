@@ -15,7 +15,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) throw err;
-  console.log("connected as id " + connection.threadId);
+  // console.log("connected as id " + connection.threadId);
   afterConnection();
 });
 
@@ -23,7 +23,11 @@ function afterConnection() {
   connection.query("SELECT * FROM bamazon_db.inventory", function(err, res) {
       if (err) throw err;
       console.log('inventory');
-      console.log(res);
+      for (var i = 0; i < res.length; i++) {
+        console.log(res[i].id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
+      }
+      console.log("-----------------------------------");
+      // console.log(res);
     connection.end();
   });
 }

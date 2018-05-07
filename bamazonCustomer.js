@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "In$iderO1",
+  password: "(your_password_here)",
   database: "bamazon_DB"
 });
 
@@ -34,7 +34,6 @@ function displayTable (res) {
 
 connection.connect(function(err) {
   if (err) throw err;
-  // console.log("connected as id " + connection.threadId);
   purchaseStart();
 });
 

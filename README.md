@@ -11,3 +11,9 @@ Second screen shows that inventory has updated and does not allow purchases with
 
 Third screen shows order over the inventory amount and doesnt let complete the order:
 ![Screenshot](/screenshots/screen3.png)
+
+Buying blueberries just for fun - note the total price!
+![Screenshot](/screenshots/screen4.png)
+
+Shows updated inventory for blueberries:
+![Screenshot](/screenshots/screen5.png)
